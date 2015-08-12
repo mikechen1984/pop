@@ -120,8 +120,8 @@ The framework provides many common layer and view animatable properties out of b
 
 ```objective-c
 POPTimeFunctionAnimation *anim = [POPTimeFunctionAnimation animationWithPropertyNamed:kPOPScrollViewContentOffset];
-anim.fromValue = [NSValue valueWithCGPoint:CGPointMake(_currentTag*SCREEN_WIDTH, 0)];
-anim.toValue = [NSValue valueWithCGPoint:CGPointMake(tag*SCREEN_WIDTH, 0)];
+anim.fromValue = [NSValue valueWithCGPoint:CGPointMake(0*SCREEN_WIDTH, 0)];
+anim.toValue = [NSValue valueWithCGPoint:CGPointMake(1*SCREEN_WIDTH, 0)];
 anim.duration = 0.5;
 anim.timingFunction = [POPTimeFunction functionWithBlock:^float(float t) {
         float uniformt = (t-0.5); //[-0.5,0.5]
