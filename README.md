@@ -119,20 +119,20 @@ anim.property = [POPAnimatableProperty propertyWithName:kPOPLayerBounds];
 The framework provides many common layer and view animatable properties out of box. You can animate a custom property by creating a new instance of the class. In this example, we declare a custom volume property:
 
 ```objective-c
-prop = [POPAnimatableProperty propertyWithName:@"com.foo.radio.volume" initializer:^(POPMutableAnimatableProperty *prop) {
-  // read value
-  prop.readBlock = ^(id obj, CGFloat values[]) {
-    values[0] = [obj volume];
-  };
-  // write value
-  prop.writeBlock = ^(id obj, const CGFloat values[]) {
-    [obj setVolume:values[0]];
-  };
-  // dynamics threshold
-  prop.threshold = 0.01;
-}];
+POPTimeFunctionAnimation *anim = [POPTimeFunctionAnimation animationWithPropertyNamed:kPOPScrollViewContentOffset];
+anim.fromValue = [NSValue valueWithCGPoint:CGPointMake(_currentTag*SCREEN_WIDTH, 0)];
+anim.toValue = [NSValue valueWithCGPoint:CGPointMake(tag*SCREEN_WIDTH, 0)];
+anim.duration = 0.5;
+anim.timingFunction = [POPTimeFunction functionWithBlock:^float(float t) {
+        float uniformt = (t-0.5); //[-0.5,0.5]
+        float accelerateScale = 0.5*erf(uniformt*8.0/sqrt(2.0))+0.5;//[0,1]
+        return accelerateScale;
+        }];
+_canDynamic = NO;
+anim.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+};
+[self pop_addAnimation:anim forKey:@"AnimationScrollTag"];
 
-anim.property = prop;
 ```
 
 For a complete listing of provided animatable properties, as well more information on declaring custom properties see `POPAnimatableProperty.h`.
